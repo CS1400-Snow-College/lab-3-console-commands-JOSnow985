@@ -33,19 +33,22 @@ do
         //Check for null, if not, trim and lowercase Guess
         if (playerGuess == null) errorValue = 1;
         else playerGuess = playerGuess.Trim().ToLower();
+
         //Check that we don't have an error and the length of guess vs secret
         if (errorValue == 0 && playerGuess.Length != hardCodedSecret.Length) errorValue = 2;
+
         //check for duplicate letters
         if (errorValue == 0)
         {
             int instancesofLetter = 0;
-            // int duplicateLetters = 0;
             for (int index = 0; index < playerGuess.Length; index++)
             {
+                //check the current index of playerGuess against the entire string and tally occurrences
                 foreach (char letter in playerGuess)
                 {
                     if (letter == playerGuess[index]) instancesofLetter++;
                 }
+                //If there's more than one occurrence, there's a duplicate
                 if (instancesofLetter > 1)
                 {
                     errorValue = 3;
@@ -54,6 +57,7 @@ do
                 else instancesofLetter = 0;
             }
         }
+
         //check if letters exceed max
         if (errorValue == 0)
         {
@@ -61,6 +65,7 @@ do
             foreach (char letter in playerGuess)
             if (letter > rangeEnd) errorValue = 4;
         }
+
         //Error or success?
         switch (errorValue)
         {
