@@ -6,6 +6,7 @@ string hardCodedSecret = "bdefa";
 string playerGuess = "";
 int attemptNumber = 0;
 int correctPositions = 0;
+int correctCharacters = 0;
 do
 {
     Console.WriteLine("Guess what the secret is! It can contain characters a through g, no repeats!");
@@ -15,13 +16,21 @@ do
     {
         if (playerGuess[slot] == hardCodedSecret[slot])
         {
-            // Console.Write("+");
             correctPositions++;
         }
-        // else Console.Write("-");
+        foreach (char digit in playerGuess)
+        {
+            if (digit == hardCodedSecret[slot])
+            {
+                correctCharacters++;
+            }
+        }
     }
+    correctCharacters -= correctPositions;
     Console.WriteLine("- " + correctPositions + " in the right position");
+    Console.WriteLine("- " + correctCharacters + " in the wrong position");
     correctPositions = 0;
+    correctCharacters = 0;
     Console.WriteLine();
     attemptNumber++;
 } while (hardCodedSecret != playerGuess);
