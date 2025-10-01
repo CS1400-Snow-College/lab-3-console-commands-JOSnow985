@@ -18,8 +18,9 @@ string[] fiveWordArray = new string[] { "crisp", "bread", "shout", "phase", "gro
 string[] sixWordArray = new string[] { "planet", "golden", "rained", "crayon", "simple" };
 string[] sevenWordArray = new string[] { "plastic", "objects", "confirm", "doubles", "reading" };
 
-// Strings we'll use, saves lines
+// Strings we'll use, helps fancy formatting
 string stringWelcome = "Welcome to Mastermind!";
+string stringDescription = "A game where you guess what our secret word is!";
 
 //Asking user for hardmode selection
 int hardMode = -1;
@@ -27,9 +28,17 @@ bool cheatCode = false;
 while (hardMode == -1)
 {
     Console.Clear();
+    for (int paddingSpace = (Console.BufferWidth - stringWelcome.Length) / 2; paddingSpace > 0; paddingSpace--) 
+        Console.Write(" ");
     Console.WriteLine(stringWelcome);
-    Console.WriteLine("A game where you guess what our secret word is!");
-    Console.WriteLine("Do you want to play with randomly generated characters or randomly chosen words?");
+    for (int paddingSpace = (Console.BufferWidth - stringDescription.Length) / 2; paddingSpace > 0; paddingSpace--) 
+        Console.Write(" ");
+    Console.WriteLine(stringDescription);
+    Console.WriteLine();
+    string stringHardModeSelect = "Do you want to play with randomly generated characters or randomly chosen words?";
+    for (int paddingSpace = (Console.BufferWidth - stringHardModeSelect.Length) / 2; paddingSpace > 0; paddingSpace--) 
+        Console.Write(" ");
+    Console.WriteLine(stringHardModeSelect);
     Console.WriteLine("1 - Characters");
     Console.WriteLine("2 - Words (Hard Mode)");
     bool parseSucceed = Int32.TryParse(Console.ReadLine(), out int difficultyChoice);
@@ -56,9 +65,17 @@ else rangeEnd = 'g';
 do 
 {
     Console.Clear();
+    for (int paddingSpace = (Console.BufferWidth - stringWelcome.Length) / 2; paddingSpace > 0; paddingSpace--) 
+        Console.Write(" ");
     Console.WriteLine(stringWelcome);
-    Console.WriteLine("A game where you guess what our secret word is!");
-    Console.WriteLine("How long do you want the secret be? It can be 3 to 7 characters!");
+    for (int paddingSpace = (Console.BufferWidth - stringDescription.Length) / 2; paddingSpace > 0; paddingSpace--) 
+        Console.Write(" ");
+    Console.WriteLine(stringDescription);
+    Console.WriteLine();
+    string stringSecretLength = "How long do you want the secret be? It can be 3 to 7 characters!";
+    for (int paddingSpace = (Console.BufferWidth - stringSecretLength.Length) / 2; paddingSpace > 0; paddingSpace--) 
+        Console.Write(" ");
+    Console.WriteLine(stringSecretLength);
     wasCodeSet = Int32.TryParse(Console.ReadLine(), out int targetLength);
     if (targetLength < minWordLength || targetLength > maxWordLength) 
         wasCodeSet = false;
@@ -129,12 +146,39 @@ do
     {
         //Instructions
         Console.Clear();
+        for (int paddingSpace = (Console.BufferWidth - stringWelcome.Length) / 2; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
         Console.WriteLine(stringWelcome);
-        Console.WriteLine("The word will be " + secretCode.Length + " characters long!");
-        Console.WriteLine($"Guess what the secret is! It can contain characters a through {rangeEnd}, no repeats!");
+        string stringSecretLengthInstruction = "The word will be " + secretCode.Length + " characters long!";
+        for (int paddingSpace = (Console.BufferWidth - stringSecretLengthInstruction.Length) / 2; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
+        Console.WriteLine(stringSecretLengthInstruction);
+        string stringGuessInstruction = $"Guess what the secret is! It can contain characters a through {rangeEnd}, no repeats!";
+        for (int paddingSpace = (Console.BufferWidth - stringGuessInstruction.Length) / 2; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
+        Console.WriteLine(stringGuessInstruction);
+
+        Console.WriteLine();
+        string stringLastAttempt = $"Attempt #{attemptNumber}";
+        for (int paddingSpace = (Console.BufferWidth - stringLastAttempt.Length) / 2; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
+        if (attemptNumber > 0)
+            Console.WriteLine(stringLastAttempt);
+        else 
+            Console.WriteLine();
+        //This will be the top of the attempt box
+        for (int paddingSpace = (Console.BufferWidth - secretCode.Length - 1) / 2; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
+        Console.Write("\u250F");
+        for (int paddingSpace = secretCode.Length; paddingSpace > 0; paddingSpace--) 
+            Console.Write("\u2501");
+            Console.WriteLine("\u2513");
+        
+        for (int paddingSpace = ((Console.BufferWidth - secretCode.Length) / 2) - 1; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
+        Console.Write("\u2503");
         if (attemptNumber > 0)
         {
-            Console.WriteLine("Your last attempt:");
             for (int index = 0; index < secretCode.Length; index++)
             {
                 if (colorArray[index] == 0)
@@ -154,12 +198,53 @@ do
                 }
                 Console.ForegroundColor = ConsoleColor.White;
             }
-            Console.WriteLine();
-
-            Console.WriteLine("This is how many attempts you've made: " + attemptNumber);
-            Console.WriteLine("- " + correctPositions + " correct characters in the right position (blue)");
-            Console.WriteLine("- " + (correctCharacters - correctPositions) + " correct characters in the wrong position (yellow)");
         }
+        else 
+        {
+            for (int paddingSpace = secretCode.Length; paddingSpace > 0; paddingSpace--) 
+                Console.Write(" ");
+        }
+        Console.WriteLine("\u2503");
+
+        //input line
+        for (int paddingSpace = ((Console.BufferWidth - secretCode.Length) / 2) - 1; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
+        Console.Write("\u2503");
+        int cursorXPos = Console.CursorLeft;
+        int cursorYPos = Console.CursorTop;
+        for (int paddingSpace = secretCode.Length; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
+        Console.WriteLine("\u2503");
+
+        for (int paddingSpace = ((Console.BufferWidth - secretCode.Length) / 2) - 1; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
+        Console.Write("\u2517");
+        for (int paddingSpace = secretCode.Length; paddingSpace > 0; paddingSpace--) 
+            Console.Write("\u2501");
+        Console.WriteLine("\u251B");
+
+        //Reads off correct characters and positions but only if an attempt has been made
+        if (attemptNumber > 0)
+        {
+            string stringcorrectPositions = " correct characters in the right position";
+            for (int paddingSpace = ((Console.BufferWidth - stringcorrectPositions.Length) / 2) - 1; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write(correctPositions);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(stringcorrectPositions);
+
+            string stringcorrectCharacters = " correct characters in the wrong position";
+            for (int paddingSpace = ((Console.BufferWidth - stringcorrectCharacters.Length) / 2) - 1; paddingSpace > 0; paddingSpace--) 
+            Console.Write(" ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(correctCharacters - correctPositions);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(stringcorrectCharacters);
+        }
+
+        //Set Cursor location to attempt box
+        Console.SetCursorPosition(cursorXPos, cursorYPos);
 
         // collect input to a variable first to test it before overwriting playerGuess
         string inputToTest = Console.ReadLine();
