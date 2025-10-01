@@ -1,6 +1,5 @@
 ﻿// Jaden, 9/30/25, Lab 5 - Mastermind
 Console.ForegroundColor = ConsoleColor.White;
-Console.BackgroundColor = ConsoleColor.Black;
 string secretCode = "";
 string playerGuess = "";
 int attemptNumber = 0;
@@ -17,7 +16,7 @@ string[] threeWordArray = new string[] { "cat", "you", "the", "our", "top" };
 string[] fourWordArray = new string[] { "calm", "jolt", "snow", "barn", "salt" };
 string[] fiveWordArray = new string[] { "crisp", "bread", "shout", "phase", "grove" };
 string[] sixWordArray = new string[] { "planet", "golden", "rained", "crayon", "simple" };
-string[] sevenWordArray = new string[] { "plastic", "lantern", "confirm", "doubles", "reading" };
+string[] sevenWordArray = new string[] { "plastic", "objects", "confirm", "doubles", "reading" };
 
 //User sets the length of the secret string
 do 
@@ -93,23 +92,19 @@ do
                 if (colorArray[index] == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.BackgroundColor = ConsoleColor.Black;
                     Console.Write(playerGuess[index]);
                 }
                 else if (colorArray[index] == 1)
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.BackgroundColor = ConsoleColor.Black;
                     Console.Write(playerGuess[index]);
                 }
                 else if (colorArray[index] == 2)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.BackgroundColor = ConsoleColor.Black;
                     Console.Write(playerGuess[index]);
                 }
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.BackgroundColor = ConsoleColor.Black;
             }
             Console.WriteLine();
 
