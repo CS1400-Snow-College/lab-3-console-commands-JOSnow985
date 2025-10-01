@@ -1,4 +1,6 @@
 ﻿// Jaden, 9/30/25, Lab 5 - Mastermind
+Console.ForegroundColor = ConsoleColor.White;
+Console.BackgroundColor = ConsoleColor.Black;
 string secretCode = "";
 string playerGuess = "";
 int attemptNumber = 0;
@@ -46,6 +48,9 @@ do
 Console.WriteLine("code randomized to: " + secretCode);
 Thread.Sleep(timeToSleep);
 
+//Making an integer array that will be used later for coloring the player's guess
+int[] colorArray = new int[secretCode.Length];
+
 //Main game loop
 do
 {
@@ -60,10 +65,36 @@ do
         Console.WriteLine("Guess what the secret is! It can contain characters a through g, no repeats!");
         if (attemptNumber > 0)
         {
+            Console.WriteLine("Your last attempt:");
+            for (int index = 0; index < secretCode.Length; index++)
+            {
+                if (colorArray[index] == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(playerGuess[index]);
+                }
+                else if (colorArray[index] == 1)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(playerGuess[index]);
+                }
+                else if (colorArray[index] == 2)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write(playerGuess[index]);
+                }
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = ConsoleColor.Black;
+            }
+            Console.WriteLine();
+
             Console.WriteLine("This is how many attempts you've made: " + attemptNumber);
             correctCharacters -= correctPositions;
-            Console.WriteLine("- " + correctPositions + " in the right position");
-            Console.WriteLine("- " + correctCharacters + " in the wrong position");
+            Console.WriteLine("- " + correctPositions + " correct characters in the right position (green)");
+            Console.WriteLine("- " + correctCharacters + " correct characters in the wrong position (yellow)");
         }
         correctPositions = 0;
         correctCharacters = 0;
@@ -131,18 +162,28 @@ do
                 break;
         }
     }
-    for (int slot = 0; slot < secretCode.Length; slot++)
+    for (int index = 0; index < secretCode.Length; index++)
     {
-        if (playerGuess[slot] == secretCode[slot])
+        // foreach (char letter in playerGuess)
+        // {
+        //     if (letter == secretCode[index])
+        //     {
+        //         correctCharacters++;
+        //     }
+        // }
+        colorArray[index] = 0;
+        foreach (char letter in secretCode)
         {
-            correctPositions++;
-        }
-        foreach (char digit in playerGuess)
-        {
-            if (digit == secretCode[slot])
+            if (letter == playerGuess[index])
             {
                 correctCharacters++;
+                colorArray[index] = 2;
             }
+        }
+        if (playerGuess[index] == secretCode[index])
+        {
+            correctPositions++;
+            colorArray[index] = 1;
         }
     }
     attemptNumber++;
