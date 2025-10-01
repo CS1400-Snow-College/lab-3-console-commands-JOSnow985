@@ -9,44 +9,67 @@ int correctCharacters = 0;
 bool playerGuessAccepted = false;
 bool wasCodeSet;
 int timeToSleep = 4500;
+int maxWordLength = 7;
+int minWordLength = 3;
+
+// Wordbank arrays
+string[] threeWordArray = new string[] { "cat", "you", "the", "our", "top" };
+string[] fourWordArray = new string[] { "calm", "jolt", "snow", "barn", "salt" };
+string[] fiveWordArray = new string[] { "crisp", "bread", "shout", "phase", "grove" };
+string[] sixWordArray = new string[] { "planet", "golden", "rained", "crayon", "simple" };
+string[] sevenWordArray = new string[] { "plastic", "lantern", "confirm", "doubles", "reading" };
+
 //User sets the length of the secret string
 do 
 {
     Console.Clear();
     Console.WriteLine("Welcome to Mastermind!");
-    Console.WriteLine("A game where you guess what our string is!");
-    Console.WriteLine("How many characters should we play with? We can go up to 7!");
+    Console.WriteLine("A game where you guess what our secret word is!");
+    Console.WriteLine("How long should the word be? We can go up to 7 characters!");
     wasCodeSet = Int32.TryParse(Console.ReadLine(), out int targetLength);
-    if (targetLength < 1 || targetLength > 7) wasCodeSet = false;
+    if (targetLength < minWordLength || targetLength > maxWordLength) wasCodeSet = false;
     if (wasCodeSet == true) 
     {
-        char[] rngArray = new char[targetLength];
         Random rng = new Random();
-        for (int index = 0; index < targetLength; index++)
+        // creating a random string with unique characters
+        // char[] rngArray = new char[targetLength];
+        // for (int index = 0; index < targetLength; index++)
+        // {
+        //     rngArray[index] = (char)rng.Next(97, 97 + targetLength);
+        //     int instancesofLetter = 0;
+        //     foreach (char randomizedLetter in rngArray)
+        //     {
+        //         if (randomizedLetter == rngArray[index]) instancesofLetter++;
+        //     }
+        //     if (instancesofLetter > 1)
+        //     {
+        //         rngArray[index] = (char)0;
+        //         index--;
+        //     }
+        // }
+        // secretCode = string.Join("", rngArray);
+
+        //randomly choosing words from the chosen array
+        secretCode = targetLength switch 
         {
-            rngArray[index] = (char)rng.Next(97, 97 + targetLength);
-            int instancesofLetter = 0;
-            foreach (char randomizedLetter in rngArray)
-            {
-                if (randomizedLetter == rngArray[index]) instancesofLetter++;
-            }
-            if (instancesofLetter > 1)
-            {
-                rngArray[index] = (char)0;
-                index--;
-            }
-        }
-        secretCode = string.Join("", rngArray);
+            3   =>  threeWordArray[rng.Next(0,sevenWordArray.Length)],
+            4   =>  fourWordArray[rng.Next(0,sevenWordArray.Length)],
+            5   =>  fiveWordArray[rng.Next(0,sevenWordArray.Length)],
+            6   =>  sixWordArray[rng.Next(0,sevenWordArray.Length)],
+            7   =>  sevenWordArray[rng.Next(0,sevenWordArray.Length)],
+            _   =>  fourWordArray[4]
+        };
     }
     else
     {
-        Console.WriteLine("Sorry, that input wasn't a positive whole number between 1 and 7, could you try again?");
+        Console.WriteLine($"Sorry, that input wasn't a positive whole number between {minWordLength} and {maxWordLength}, could you try again?");
         Thread.Sleep(timeToSleep);
     }
 } while (wasCodeSet == false);
 
-Console.WriteLine("code randomized to: " + secretCode);
-Thread.Sleep(timeToSleep);
+// cheat code
+// Console.WriteLine("code randomized to: " + secretCode);
+// Thread.Sleep(timeToSleep);
 
 //Making an integer array that will be used later for coloring the player's guess
 int[] colorArray = new int[secretCode.Length];
@@ -60,9 +83,8 @@ do
         //Instructions
         Console.Clear();
         Console.WriteLine("Welcome to Mastermind!");
-        Console.WriteLine("A game where you guess what our string is!");
-        Console.WriteLine("The string will be " + secretCode.Length + " characters long!");
-        Console.WriteLine("Guess what the secret is! It can contain characters a through g, no repeats!");
+        Console.WriteLine("The word will be " + secretCode.Length + " characters long!");
+        Console.WriteLine("Guess what the secret is! It can contain characters a through z, no repeats!");
         if (attemptNumber > 0)
         {
             Console.WriteLine("Your last attempt:");
@@ -70,13 +92,13 @@ do
             {
                 if (colorArray[index] == 0)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.Write(playerGuess[index]);
                 }
                 else if (colorArray[index] == 1)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Blue;
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.Write(playerGuess[index]);
                 }
@@ -93,32 +115,31 @@ do
 
             Console.WriteLine("This is how many attempts you've made: " + attemptNumber);
             correctCharacters -= correctPositions;
-            Console.WriteLine("- " + correctPositions + " correct characters in the right position (green)");
+            Console.WriteLine("- " + correctPositions + " correct characters in the right position (blue)");
             Console.WriteLine("- " + correctCharacters + " correct characters in the wrong position (yellow)");
         }
-        correctPositions = 0;
-        correctCharacters = 0;
 
         int errorValue = 0;
-        playerGuess = Console.ReadLine();
+        // collect input to a variable first to test it before overwriting playerGuess
+        string inputToTest = Console.ReadLine();
 
         //Check for null, if not, trim and lowercase Guess
-        if (playerGuess == null) errorValue = 1;
-        else playerGuess = playerGuess.Trim().ToLower();
+        if (inputToTest == null) errorValue = 1;
+        else inputToTest = inputToTest.Trim().ToLower();
 
         //Check that we don't have an error and the length of guess vs secret
-        if (errorValue == 0 && playerGuess.Length != secretCode.Length) errorValue = 2;
+        if (errorValue == 0 && inputToTest.Length != secretCode.Length) errorValue = 2;
 
         //check for duplicate letters
         if (errorValue == 0)
         {
             int instancesofLetter = 0;
-            for (int index = 0; index < playerGuess.Length; index++)
+            for (int index = 0; index < inputToTest.Length; index++)
             {
                 //check the current index of playerGuess against the entire string and tally occurrences
-                foreach (char letter in playerGuess)
+                foreach (char letter in inputToTest)
                 {
-                    if (letter == playerGuess[index]) instancesofLetter++;
+                    if (letter == inputToTest[index]) instancesofLetter++;
                 }
                 //If there's more than one occurrence, there's a duplicate
                 if (instancesofLetter > 1)
@@ -130,11 +151,12 @@ do
             }
         }
 
-        //check if letters exceed max
+        //check if letters exceed the range of possibilities
         if (errorValue == 0)
         {
-            char rangeEnd = 'g';
-            foreach (char letter in playerGuess)
+            char rangeEnd = 'z';
+            // char rangeEnd = 'g';
+            foreach (char letter in inputToTest)
             if (letter > rangeEnd) errorValue = 4;
         }
 
@@ -154,14 +176,18 @@ do
                 Thread.Sleep(timeToSleep);
                 break;
             case 4:
-                Console.WriteLine("Your guess had a charcter that isn't in the same range as our secret, try again with characters between a and g!");
+                Console.WriteLine("Your guess had a charcter that isn't in the same range as our secret, try again with characters between a and z!");
                 Thread.Sleep(timeToSleep);
                 break;
             default:
+                playerGuess = inputToTest;
                 playerGuessAccepted = true;
                 break;
         }
     }
+    //Reset variables for for loop
+    correctPositions = 0;
+    correctCharacters = 0;
     for (int index = 0; index < secretCode.Length; index++)
     {
         // foreach (char letter in playerGuess)
@@ -186,6 +212,7 @@ do
             colorArray[index] = 1;
         }
     }
+    //increment attempt counter and reset bool for future loop
     attemptNumber++;
     playerGuessAccepted = false;
 } while (playerGuess != secretCode);
