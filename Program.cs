@@ -158,6 +158,7 @@ do
             Console.Write(" ");
         Console.WriteLine(stringGuessInstruction);
 
+        //Attempt tracker line
         Console.WriteLine();
         string stringLastAttempt = $"Attempt #{attemptNumber}";
         for (int paddingSpace = (Console.BufferWidth - stringLastAttempt.Length) / 2; paddingSpace > 0; paddingSpace--) 
@@ -167,14 +168,15 @@ do
         else 
             Console.WriteLine();
         //This will be the top of the attempt box
-        for (int paddingSpace = (Console.BufferWidth - secretCode.Length - 1) / 2; paddingSpace > 0; paddingSpace--) 
+        for (int paddingSpace = (Console.BufferWidth - secretCode.Length) / 2 - (secretCode.Length % 2); paddingSpace > 0; paddingSpace--) 
             Console.Write(" ");
         Console.Write("\u250F");
         for (int paddingSpace = secretCode.Length; paddingSpace > 0; paddingSpace--) 
             Console.Write("\u2501");
-            Console.WriteLine("\u2513");
+        Console.WriteLine("\u2513");
         
-        for (int paddingSpace = ((Console.BufferWidth - secretCode.Length) / 2) - 1; paddingSpace > 0; paddingSpace--) 
+        //previous guess line
+        for (int paddingSpace = ((Console.BufferWidth - secretCode.Length) / 2) - (secretCode.Length % 2); paddingSpace > 0; paddingSpace--) 
             Console.Write(" ");
         Console.Write("\u2503");
         if (attemptNumber > 0)
@@ -206,8 +208,8 @@ do
         }
         Console.WriteLine("\u2503");
 
-        //input line
-        for (int paddingSpace = ((Console.BufferWidth - secretCode.Length) / 2) - 1; paddingSpace > 0; paddingSpace--) 
+        //input box
+        for (int paddingSpace = ((Console.BufferWidth - secretCode.Length) / 2) - (secretCode.Length % 2); paddingSpace > 0; paddingSpace--) 
             Console.Write(" ");
         Console.Write("\u2503");
         int cursorXPos = Console.CursorLeft;
@@ -216,7 +218,8 @@ do
             Console.Write(" ");
         Console.WriteLine("\u2503");
 
-        for (int paddingSpace = ((Console.BufferWidth - secretCode.Length) / 2) - 1; paddingSpace > 0; paddingSpace--) 
+        //bottom of the attempt box
+        for (int paddingSpace = ((Console.BufferWidth - secretCode.Length) / 2) - (secretCode.Length % 2) ; paddingSpace > 0; paddingSpace--) 
             Console.Write(" ");
         Console.Write("\u2517");
         for (int paddingSpace = secretCode.Length; paddingSpace > 0; paddingSpace--) 
@@ -227,16 +230,16 @@ do
         if (attemptNumber > 0)
         {
             string stringcorrectPositions = " correct characters in the right position";
-            for (int paddingSpace = ((Console.BufferWidth - stringcorrectPositions.Length) / 2) - 1; paddingSpace > 0; paddingSpace--) 
-            Console.Write(" ");
+            for (int paddingSpace = ((Console.BufferWidth - stringcorrectPositions.Length) / 2) - (stringcorrectPositions.Length % 2); paddingSpace > 0; paddingSpace--) 
+                Console.Write(" ");
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(correctPositions);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(stringcorrectPositions);
 
             string stringcorrectCharacters = " correct characters in the wrong position";
-            for (int paddingSpace = ((Console.BufferWidth - stringcorrectCharacters.Length) / 2) - 1; paddingSpace > 0; paddingSpace--) 
-            Console.Write(" ");
+            for (int paddingSpace = ((Console.BufferWidth - stringcorrectCharacters.Length) / 2) - (stringcorrectCharacters.Length % 2); paddingSpace > 0; paddingSpace--) 
+                Console.Write(" ");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(correctCharacters - correctPositions);
             Console.ForegroundColor = ConsoleColor.White;
@@ -334,8 +337,41 @@ do
     playerGuessAccepted = false;
 } while (playerGuess != secretCode);
 
-//Print their the answer in blue under their guess
+//    __  __               _       ___       __
+//    \ \/ /___  __  __   | |     / (_)___  / /
+//     \  / __ \/ / / /   | | /| / / / __ \/ / 
+//     / / /_/ / /_/ /    | |/ |/ / / / / /_/  
+//    /_/\____/\__,_/     |__/|__/_/_/ /_(_)   
+// credit: https://patorjk.com/software/taag/
+
+Console.Clear();
+string winFirstLine = "__  __               _       ___       __";
+for (int paddingSpace = ((Console.BufferWidth - winFirstLine.Length) / 2) - (winFirstLine.Length % 2); paddingSpace > 0; paddingSpace--) 
+    Console.Write(" ");
+Console.WriteLine(winFirstLine);
+string winSecondLine = "\\ \\/ /___  __  __   | |     / (_)___  / /";
+for (int paddingSpace = ((Console.BufferWidth - winSecondLine.Length) / 2) - (winSecondLine.Length % 2); paddingSpace > 0; paddingSpace--) 
+    Console.Write(" ");
+Console.WriteLine(winSecondLine);
+string winThirdLine = " \\  / __ \\/ / / /   | | /| / / / __ \\/ / ";
+for (int paddingSpace = ((Console.BufferWidth - winThirdLine.Length) / 2) - (winThirdLine.Length % 2); paddingSpace > 0; paddingSpace--) 
+    Console.Write(" ");
+Console.WriteLine(winThirdLine);
+string winFourthLine = " / / /_/ / /_/ /    | |/ |/ / / / / /_/  ";
+for (int paddingSpace = ((Console.BufferWidth - winFourthLine.Length) / 2) - (winFourthLine.Length % 2); paddingSpace > 0; paddingSpace--) 
+    Console.Write(" ");
+Console.WriteLine(winFourthLine);
+string winFifthLine = "/_/\\____/\\__,_/     |__/|__/_/_/ /_(_)   ";
+for (int paddingSpace = ((Console.BufferWidth - winFifthLine.Length) / 2) - (winFifthLine.Length % 2); paddingSpace > 0; paddingSpace--) 
+    Console.Write(" ");
+Console.WriteLine(winFifthLine);
+Console.WriteLine();
+for (int paddingSpace = ((Console.BufferWidth - secretCode.Length) / 2) - (secretCode.Length % 2); paddingSpace > 0; paddingSpace--) 
+    Console.Write(" ");
 Console.ForegroundColor = ConsoleColor.Blue;
 Console.WriteLine(secretCode);
 Console.ForegroundColor = ConsoleColor.White;
-Console.WriteLine("It only took you " + attemptNumber + " attempts, nice!");
+string stringTotalAttempts = "It only took you " + attemptNumber + " attempts, nice!";
+for (int paddingSpace = ((Console.BufferWidth - stringTotalAttempts.Length) / 2) - (stringTotalAttempts.Length % 2); paddingSpace > 0; paddingSpace--) 
+    Console.Write(" ");
+Console.WriteLine(stringTotalAttempts);

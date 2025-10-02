@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("lab-3-console-commands-JOSnow985")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df57701d09b0f913ed8294dc11420bb51445456c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c22b5474ee9dfb44385fffd17f472d8e7f1aea00")]
 [assembly: System.Reflection.AssemblyProductAttribute("lab-3-console-commands-JOSnow985")]
 [assembly: System.Reflection.AssemblyTitleAttribute("lab-3-console-commands-JOSnow985")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
